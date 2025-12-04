@@ -6,7 +6,7 @@ Oferece uma interface gráfica intuitiva para ajustar os parâmetros de tempo (O
 
 ### **Sobre a Linha e-LTS(se) da YVYRA**
 
-O **Copaiba Lexikon** faz parte da linha **e-LTS(se)** da iniciativa **YVYRA** (associada ao [SPY - Studio Pomar Yvyra](https://github.com/sgy-studio-galaxia-yvyra)). A sigla **e-LTS(se)** indica que este software é parte de um conjunto de ferramentas consideradas **Estáveis e de Longo Tempo de Suporte (Long-Term Support)**, com foco em confiabilidade e robustez para o usuário final.
+O **Copaiba Lexikon** faz parte da linha **e-LTS(se)** da iniciativa **YVYRA** (associada ao [Studio Pomar Yvyra](https://github.com/studiopomar)). A sigla **e-LTS(se)** indica que este software é parte de um conjunto de ferramentas consideradas **Estáveis e de Longo Tempo de Suporte (Long-Term Support)**, com foco em confiabilidade e robustez para o usuário final.
 
 Isso significa que:
 
@@ -22,7 +22,7 @@ Em resumo, ao utilizar o **Copaiba Lexikon**, você está adotando uma ferrament
 *   **Usabilidade:** Interface limpa e eficiente, otimizada para o fluxo de trabalho de editores de voicebank.
 *   **Eficiência:** Processamento rápido, inclusive para arquivos grandes, com suporte opcional a GPU.
 *   **Manutenibilidade:** Código modular e bem estruturado para facilitar futuras melhorias e contribuições.
-*   **Tecnologia Local:** Parte do projeto [SPY - Studio Pomar Yvyra](https://github.com/SGY-STUDIO-GALAXIA-YVYRA) e da iniciativa de ferramentas brasileiras para UTAU.
+*   **Tecnologia Local:** Parte do projeto [Studio Pomar Yvyra](https://github.com/studiopomar) e da iniciativa de ferramentas brasileiras para UTAU.
 
   ### Recursos
 
