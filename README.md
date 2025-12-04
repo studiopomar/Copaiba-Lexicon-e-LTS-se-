@@ -49,5 +49,3 @@ Sinta-se à vontade para abrir *Issues* para relatar bugs ou sugerir recursos, o
 3.  Commit suas mudanças (`git commit -m 'Adiciona NovaFeature'`).
 4.  Faça *Push* para o *branch* (`git push origin feature/NovaFeature`).
 5.  Abra um *Pull Request*.
-
-Por favor, siga o [Código de Conduta](./CODE_OF_CONDUCT.md) (se houver).
