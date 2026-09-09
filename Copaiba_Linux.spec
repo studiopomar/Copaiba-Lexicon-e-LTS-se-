@@ -15,7 +15,9 @@ a = Analysis(
     hiddenimports=[
         'PySide6', 'scipy', 'scipy.signal', 'numpy', 'sounddevice', 'pyqtgraph',
         'OpenGL.platform', 'OpenGL.GL', 'OpenGL.GL.shaders', 'OpenGL.arrays', 'OpenGL.GLUT', 'OpenGL.GLU',
-        'OpenGL.platform.glx', 'OpenGL.platform.egl', 'OpenGL.platform.x11'
+        'OpenGL.platform.glx', 'OpenGL.platform.egl', 'OpenGL.platform.x11',
+        'librosa', 'librosa.display', 'matplotlib', 'matplotlib.pyplot',
+        'matplotlib.backends.backend_qtagg', 'matplotlib.backends.backend_qt5agg'
     ],
     hookspath=[],
     hooksconfig={},

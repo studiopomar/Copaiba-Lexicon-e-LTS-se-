@@ -19,7 +19,13 @@ a = Analysis(
         'numpy', 
         'sounddevice', 
         'pyqtgraph',
-        'pypresence'  # Discord RPC
+        'pypresence',
+        'librosa',
+        'librosa.display',
+        'matplotlib',
+        'matplotlib.pyplot',
+        'matplotlib.backends.backend_qtagg',
+        'matplotlib.backends.backend_qt5agg'
     ],
     hookspath=[],
     hooksconfig={},
@@ -28,7 +34,6 @@ a = Analysis(
         'torch',
         'torchaudio', 
         'torchvision',
-        'matplotlib',
         'sympy',
         'onnx',
         'onnxruntime',
