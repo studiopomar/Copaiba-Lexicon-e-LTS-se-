@@ -44,5 +44,11 @@ jobs:
             }' \
           )
           
+          # Se o webhook não estiver configurado, ignora graciosamente
+          if [ -z "$DISCORD_WEBHOOK" ]; then
+            echo "DISCORD_WEBHOOK não configurado. Pulando notificação."
+            exit 0
+          fi
+          
           # Dispara a mensagem para o Bidu
-          curl -H "Content-Type: application/json" -d "$JSON_PAYLOAD" $DISCORD_WEBHOOK
+          curl -s -H "Content-Type: application/json" -d "$JSON_PAYLOAD" "$DISCORD_WEBHOOK" || true

@@ -30,6 +30,7 @@ MANIFEST
 !Copaiba_Windows.spec
 !Copaiba_Linux.spec
 !Copaiba_Windows_OneFile.spec
+!Copaiba_macOS.spec
 
 # Installer logs
 *.log
