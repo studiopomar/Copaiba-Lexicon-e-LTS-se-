@@ -1,0 +1,169 @@
+name: Build e Release Multiplataforma
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      create_release:
+        description: 'Criar GitHub Release agora?'
+        required: false
+        type: boolean
+        default: false
+      tag_name:
+        description: 'Tag da release (ex: v2026.4-v120.1)'
+        required: false
+        default: 'v2026.4-v120.1'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build (${{ matrix.os_name }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            os_name: Windows
+            spec: Copaiba_Windows.spec
+            artifact_name: Copaiba-Windows-x64
+            output_type: zip
+          - os: ubuntu-22.04
+            os_name: Linux
+            spec: Copaiba_Linux.spec
+            artifact_name: Copaiba-Linux-x64
+            output_type: tar
+          - os: macos-latest
+            os_name: macOS
+            spec: Copaiba_macOS.spec
+            artifact_name: Copaiba-macOS
+            output_type: zip
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Linux system dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libgl1-mesa-glx \
+            libegl1-mesa \
+            libxkbcommon0 \
+            libxcb-icccm4 \
+            libxcb-image0 \
+            libxcb-keysyms1 \
+            libxcb-randr0 \
+            libxcb-render-util0 \
+            libxcb-shape0 \
+            libxcb-xinerama0 \
+            libxcb-xfixes0 \
+            libxcb-cursor0 \
+            libfontconfig1 \
+            libdbus-1-3 \
+            libpulse0 \
+            libasound2 \
+            binutils
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller pypresence
+
+      - name: Build executable with PyInstaller
+        run: |
+          pyinstaller --clean ${{ matrix.spec }}
+
+      - name: Package Windows build
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Compress-Archive -Path "dist/Copaiba/*" -DestinationPath "${{ matrix.artifact_name }}.zip"
+
+      - name: Package Linux build
+        if: runner.os == 'Linux'
+        run: |
+          tar -czvf ${{ matrix.artifact_name }}.tar.gz -C dist Copaiba_Linux
+
+      - name: Package macOS build
+        if: runner.os == 'macOS'
+        run: |
+          cd dist
+          zip -r ../${{ matrix.artifact_name }}.zip Copaiba.app
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: |
+            ${{ matrix.artifact_name }}.zip
+            ${{ matrix.artifact_name }}.tar.gz
+
+  release:
+    name: Publicar Release
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_dispatch' && github.event.inputs.create_release == 'true')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release_artifacts
+
+      - name: List and prepare artifacts for release
+        run: |
+          mkdir -p final_assets
+          find release_artifacts -type f \( -name "*.zip" -o -name "*.tar.gz" \) -exec cp {} final_assets/ \;
+          ls -la final_assets/
+
+      - name: Determine tag and release name
+        id: release_info
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ github.event.inputs.tag_name }}" ]; then
+            echo "tag=${{ github.event.inputs.tag_name }}" >> $GITHUB_OUTPUT
+            echo "title=Copaiba Lexikon 2026.4 v120.1" >> $GITHUB_OUTPUT
+          elif [ -n "${{ github.ref_name }}" ]; then
+            echo "tag=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+            echo "title=Copaiba Lexikon 2026.4 v120.1 (${{ github.ref_name }})" >> $GITHUB_OUTPUT
+          else
+            echo "tag=v2026.4-v120.1" >> $GITHUB_OUTPUT
+            echo "title=Copaiba Lexikon 2026.4 v120.1" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create or Update GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.release_info.outputs.tag }}
+          name: ${{ steps.release_info.outputs.title }}
+          body: |
+            ## Copaiba Lexikon 2026.4 v120.1
+
+            > **Nota da Atualização:**
+            > Esta é uma **atualização de segurança e multiplataforma**. Não contém alterações significativas de performance — trata-se de **correções simples para manutenção e longevidade do software**.
+
+            ### 📦 Binários disponíveis:
+            - **Windows**: `Copaiba-Windows-x64.zip` (Descompactar e executar `Copaiba.exe`)
+            - **Linux**: `Copaiba-Linux-x64.tar.gz` (Descompactar e executar `Copaiba_Linux`)
+            - **macOS**: `Copaiba-macOS.zip` (Descompactar e mover `Copaiba.app` para `/Applications`)
+          files: final_assets/*
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -41,13 +41,5 @@ Em resumo, ao utilizar o **Copaiba Lexikon**, você está adotando uma ferrament
 *   **Suporte a Múltiplos Encodings:** Lê e escreve arquivos `oto.ini` em UTF-8, Shift-JIS (cp932) e ANSI (mbcs).
 *   **Salvamento Automático:** Opção para salvar automaticamente alterações no `oto.ini` e manter backups.
 *   **Interface Moderna:** Estilo Fusion com tema escuro, inspirado em ferramentas profissionais.
-*   **Multiplataforma:** Funciona em Windows, Linux e potencialmente macOS (não testado extensivamente).
-### Contribuições são bem-vindas, mas:
+*   **Multiplataforma:** Funciona em Windows, Linux e macOS.
 
-Sinta-se à vontade para abrir *Issues* para relatar bugs ou sugerir recursos, ou enviar *Pull Requests* para melhorar o código.
-
-1.  Faça um *Fork* do projeto.
-2.  Crie um *branch* para sua feature (`git checkout -b feature/NovaFeature`).
-3.  Commit suas mudanças (`git commit -m 'Adiciona NovaFeature'`).
-4.  Faça *Push* para o *branch* (`git push origin feature/NovaFeature`).
-5.  Abra um *Pull Request*.

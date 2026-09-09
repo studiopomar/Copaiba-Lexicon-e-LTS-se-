@@ -10,7 +10,6 @@ a = Analysis(
         ('plugins', 'plugins'),
         ('translations', 'translations'),
         ('favicon.ico', '.'),
-        ('coffee.jpg', '.'),
         ('site.webmanifest', '.')
     ],
     hiddenimports=[

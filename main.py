@@ -122,7 +122,7 @@ class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Copaiba Lexikon | 2026.4")
+        self.setWindowTitle("Copaiba Lexikon | 2026.4 v120.1")
         self.resize(1600, 900)
         
         # Configura ícone da janela
@@ -2709,7 +2709,7 @@ class MainWindow(QMainWindow):
         self._set_wave_theme(next_key)
 
     def _update_title(self):
-        title = "Copaiba Lexikon | 2026.4"
+        title = "Copaiba Lexikon | 2026.4 v120.1"
         if self._current_path:
             title += f" - {self._current_path.name}"
             if self._dirty:
